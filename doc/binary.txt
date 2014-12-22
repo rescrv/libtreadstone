@@ -1,0 +1,46 @@
+Binary JSON Format
+==================
+
+This document describes the treadstone binary JSON format.  The format
+directly follows from the JSON format itself.  The key difference is that the
+binary format prefixes each value with a type, and, where necessary, a length,
+so that a binary blob may be quickly traversed without any heap allocation or
+back-tracking.  This makes it better-suited for use in data stores than
+traditional JSON, which can be costly to store and query.
+
+Grammar
+-------
+
+value : object
+      | array
+      | string
+      | double
+      | integer
+      | true
+      | false
+      | null
+      | error
+
+object : "\x40" varint64=0
+       | "\x40" varint64=<len members> members
+
+members : string value
+        | string value members
+
+array : "\x41" varint64=0
+      | "\x41" varint64=<len elements> elements
+
+elements : value
+         | value elements
+
+string : "\x42" varint64=<len bytes> bytes
+
+double : "\x43" iee754-8B-be
+
+integer : "\x44" varint64
+
+true : "\x45"
+
+false : "\x46"
+
+null : "\x47"

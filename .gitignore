@@ -1,0 +1,36 @@
+# wildcards
+.deps
+.dirstamp
+.libs
+*.la
+*.lo
+*.o
+# specific files
+/aclocal.m4
+/autom4te.cache
+/compile
+/config.guess
+/config.h
+/config.h.in
+/config.h.in~
+/config.log
+/config.status
+/config.sub
+/configure
+/depcomp
+/install-sh
+/libtool
+/libtreadstone.pc
+/ltmain.sh
+/m4
+/Makefile
+/Makefile.in
+/missing
+/parser_l.c
+/parser_y.c
+/parser_y.h
+/stamp-h1
+/test/transforms
+/test/validate-path
+/treadstone-json-validate
+/ylwrap
