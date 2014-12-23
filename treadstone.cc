@@ -1159,7 +1159,7 @@ treadstone_double_to_binary(double number,
     unsigned char* ptr = *binary;
     unsigned char* start = ptr;
     ptr = e::pack8be(BINARY_DOUBLE, ptr);
-    ptr = e::packdoublele(number, ptr);
+    ptr = e::packdoublebe(number, ptr);
     *binary_sz = ptr - start;
     return 0;
 }
@@ -1239,7 +1239,7 @@ treadstone_binary_is_double(const unsigned char* binary, size_t binary_sz)
 {
     const unsigned char* ptr = binary;
     const unsigned char* limit = ptr + binary_sz;
-    return (ptr + sizeof(double) == limit && *ptr == BINARY_DOUBLE) ? 0 : -1;
+    return (ptr + 1 + sizeof(double) == limit && *ptr == BINARY_DOUBLE) ? 0 : -1;
 }
 
 TREADSTONE_API double
@@ -1247,7 +1247,7 @@ treadstone_binary_to_double(const unsigned char* binary, size_t binary_sz)
 {
     const unsigned char* ptr = binary;
     const unsigned char* limit = ptr + binary_sz;
-    assert(ptr + sizeof(double) == limit && *ptr == BINARY_DOUBLE);
+    assert(ptr + 1 + sizeof(double) == limit && *ptr == BINARY_DOUBLE);
     double num;
     e::unpackdoublebe(ptr + 1, &num);
     return num;
