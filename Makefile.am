@@ -27,9 +27,9 @@
 
 ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
 
-AM_CPPFLAGS  = -I${abs_top_srcdir}/include
+AM_CPPFLAGS  = -I${abs_top_srcdir}/include $(E_CFLAGS) $(PO6_CFLAGS)
 AM_CFLAGS    = -fvisibility=hidden $(WANAL_CFLAGS)
-AM_CXXFLAGS  = -fvisibility=hidden -fvisibility-inlines-hidden $(WANAL_CXXFLAGS)
+AM_CXXFLAGS  = -fvisibility=hidden -fvisibility-inlines-hidden $(E_CFLAGS) $(PO6_CFLAGS) $(WANAL_CXXFLAGS)
 AM_MAKEFLAGS = --no-print-directory
 AM_YFLAGS = -d
 
