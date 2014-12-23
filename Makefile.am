@@ -48,7 +48,7 @@ lib_LTLIBRARIES += libtreadstone.la
 
 libtreadstone_la_SOURCES =
 libtreadstone_la_SOURCES += treadstone.cc
-libtreadstone_la_LIBADD = -le
+libtreadstone_la_LIBADD = $(E_LIBS)
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA =
@@ -57,7 +57,7 @@ pkgconfig_DATA += libtreadstone.pc
 noinst_PROGRAMS = treadstone-json-validate
 
 treadstone_json_validate_SOURCES = treadstone-json-validate.cc
-treadstone_json_validate_LDADD = libtreadstone.la -le
+treadstone_json_validate_LDADD = libtreadstone.la $(E_LIBS)
 
 check_PROGRAMS =
 check_PROGRAMS += test/transforms
