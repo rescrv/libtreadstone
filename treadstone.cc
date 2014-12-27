@@ -800,7 +800,7 @@ b2j_integer(const unsigned char** ptr, const unsigned char* limit,
 
     int64_t num = unum;
     char buf[40];
-    int sz = snprintf(buf, 40, "%" PRId64, num);
+    int sz = snprintf(buf, 40, "%lld", (long long)num);
 
     if (sz >= 40 || sz <= 0)
     {
