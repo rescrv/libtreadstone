@@ -25,7 +25,7 @@ AC_PROG_CC
 
 # Checks for libraries.
 PKG_CHECK_MODULES([PO6], [libpo6 >= 0.6])
-PKG_CHECK_MODULES([E], [libe >= 0.7])
+PKG_CHECK_MODULES([E], [libe >= 0.9])
 
 # Checks for header files.
 AC_CHECK_HEADERS([stdint.h stdlib.h string.h])
