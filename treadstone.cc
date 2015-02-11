@@ -1,4 +1,4 @@
-// Copyright (c) 2014, Robert Escriva
+// Copyright (c) 2014-2015, Robert Escriva
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -52,15 +52,7 @@
 #include <treadstone.h>
 #include "namespace.h"
 #include "visibility.h"
-
-#define BINARY_OBJECT '\x40'
-#define BINARY_ARRAY '\x41'
-#define BINARY_STRING '\x42'
-#define BINARY_DOUBLE '\x43'
-#define BINARY_INTEGER '\x44'
-#define BINARY_TRUE '\x45'
-#define BINARY_FALSE '\x46'
-#define BINARY_NULL '\x47'
+#include "treadstone-types.h"
 
 BEGIN_TREADSTONE_NAMESPACE
 
@@ -776,7 +768,7 @@ b2j_double(const unsigned char** ptr, const unsigned char* limit,
     }
 
     memmove(*json + *json_sz, buf, sz);
-    *ptr += 9;
+    *ptr += sizeof(unsigned char) + sizeof(double);
     *json_sz += sz;
     return true;
 }
@@ -1097,14 +1089,6 @@ treadstone_binary_to_json(const unsigned char* binary, size_t binary_sz,
         *json = NULL;
         return -1;
     }
-}
-
-TREADSTONE_API int
-treadstone_binary_validate(const unsigned char* binary, size_t binary_sz)
-{
-    char* json = NULL;
-    e::guard g = e::makeguard(treadstone::free_if_allocated_char_star, &json);
-    return treadstone_binary_to_json(binary, binary_sz, &json);
 }
 
 TREADSTONE_API int

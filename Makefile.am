@@ -42,12 +42,14 @@ include_HEADERS = include/treadstone.h
 noinst_HEADERS =
 noinst_HEADERS += namespace.h
 noinst_HEADERS += visibility.h
+noinst_HEADERS += treadstone-types.h
 
 lib_LTLIBRARIES =
 lib_LTLIBRARIES += libtreadstone.la
 
 libtreadstone_la_SOURCES =
 libtreadstone_la_SOURCES += treadstone.cc
+libtreadstone_la_SOURCES += treadstone-validate.cc
 libtreadstone_la_LIBADD = $(E_LIBS)
 
 pkgconfigdir = $(libdir)/pkgconfig
