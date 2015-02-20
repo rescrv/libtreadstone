@@ -267,20 +267,28 @@ TEST(Transforms, Set)
     ASSERT_EQ(transformer_dump(trans), "[]");
     ASSERT_EQ(treadstone_transformer_set_value(trans, "", "{}"), 0);
     ASSERT_EQ(transformer_dump(trans), "{}");
-    ASSERT_EQ(treadstone_transformer_set_value(trans, "foo.bar", "{}"), -1);
-    ASSERT_EQ(transformer_dump(trans), "{}");
-    ASSERT_EQ(treadstone_transformer_set_value(trans, "foo", "{}"), 0);
-    ASSERT_EQ(transformer_dump(trans), "{\"foo\":{}}");
     ASSERT_EQ(treadstone_transformer_set_value(trans, "foo.bar", "{}"), 0);
     ASSERT_EQ(transformer_dump(trans), "{\"foo\":{\"bar\":{}}}");
-    ASSERT_EQ(treadstone_transformer_set_value(trans, "foo.bar.baz", "true"), 0);
-    ASSERT_EQ(transformer_dump(trans), "{\"foo\":{\"bar\":{\"baz\":true}}}");
-    ASSERT_EQ(treadstone_transformer_set_value(trans, "foo", "null"), 0);
-    ASSERT_EQ(transformer_dump(trans), "{\"foo\":null}");
-    ASSERT_EQ(treadstone_transformer_set_value(trans, "foo", "[14]"), 0);
-    ASSERT_EQ(transformer_dump(trans), "{\"foo\":[14]}");
-    ASSERT_EQ(treadstone_transformer_set_value(trans, "foo[0]", "3.14"), 0);
-    ASSERT_EQ(transformer_dump(trans), "{\"foo\":[3.14]}");
+    ASSERT_EQ(treadstone_transformer_set_value(trans, "foo.bar", "{}"), 0); // setting again shouldn't change anything
+    ASSERT_EQ(transformer_dump(trans), "{\"foo\":{\"bar\":{}}}");
+    ASSERT_EQ(treadstone_transformer_set_value(trans, "foo2", "{}"), 0);
+    ASSERT_EQ(transformer_dump(trans), "{\"foo\":{\"bar\":{}},\"foo2\":{}}");
+    ASSERT_EQ(treadstone_transformer_set_value(trans, "foo2.bar", "{}"), 0);
+    ASSERT_EQ(transformer_dump(trans), "{\"foo\":{\"bar\":{}},\"foo2\":{\"bar\":{}}}");
+    ASSERT_EQ(treadstone_transformer_set_value(trans, "foo2.bar.baz", "true"), 0);
+    ASSERT_EQ(transformer_dump(trans), "{\"foo\":{\"bar\":{}},\"foo2\":{\"bar\":{\"baz\":true}}}");
+    ASSERT_EQ(treadstone_transformer_set_value(trans, "foo2.bar.baz", "true"), 0); // setting again shouldn't change anything
+    ASSERT_EQ(transformer_dump(trans), "{\"foo\":{\"bar\":{}},\"foo2\":{\"bar\":{\"baz\":true}}}");
+    ASSERT_EQ(treadstone_transformer_set_value(trans, "foo2", "null"), 0);
+    ASSERT_EQ(transformer_dump(trans), "{\"foo\":{\"bar\":{}},\"foo2\":null}");
+    ASSERT_EQ(treadstone_transformer_set_value(trans, "foo2", "[14]"), 0);
+    ASSERT_EQ(transformer_dump(trans), "{\"foo\":{\"bar\":{}},\"foo2\":[14]}");
+    ASSERT_EQ(treadstone_transformer_set_value(trans, "foo[0]", "3.14"), -1);
+    ASSERT_EQ(treadstone_transformer_set_value(trans, "foo2[0]", "3.14"), 0);
+    ASSERT_EQ(transformer_dump(trans), "{\"foo\":{\"bar\":{}},\"foo2\":[3.14]}");
+    //Not supported
+    //ASSERT_EQ(treadstone_transformer_set_value(trans, "foo2[1]", "42"), 0);
+    //ASSERT_EQ(transformer_dump(trans), "{\"foo\":{\"bar\":{}},\"foo2\":[3.14, 42]}");
     treadstone_transformer_destroy(trans);
 }
 
