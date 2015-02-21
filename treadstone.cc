@@ -122,6 +122,9 @@ bool
 j2b_null(const char** ptr, const char* limit,
          unsigned char** binary, size_t* binary_sz, size_t* binary_cap);
 
+// TODO use constexpr to calculate during compile time
+const unsigned char empty_object[2] = { BINARY_OBJECT, 0 };
+
 bool
 j2b_transform(const char** ptr, const char* limit,
               unsigned char** binary, size_t* binary_sz, size_t* binary_cap)
@@ -885,17 +888,53 @@ struct path
     };
 
     path(const char* p);
+
     bool is_valid() const { return m_valid; }
     size_t depth() const { return m_components.size(); }
     const component& get(size_t i) const { return m_components[i]; }
 
-    private:
-        void parse(const char* p);
-        friend std::ostream& operator << (std::ostream& lhs, const path& p);
+    const component& head() const { return m_components[0]; }
+    const component& back() const { return m_components[depth()-1]; }
 
-        bool m_valid;
-        std::vector<component> m_components;
+    // Get whole path w/o back
+    path front() const;
+
+    // Get whole path w/o head
+    path tail() const;
+
+private:
+    path() : m_valid(true) {}
+
+    void parse(const char* p);
+    friend std::ostream& operator << (std::ostream& lhs, const path& p);
+
+    bool m_valid;
+    std::vector<component> m_components;
 };
+
+path path::front() const
+{
+    path p;
+
+    for(uint32_t i = 0; i < depth() - 1; ++i)
+    {
+        p.m_components.push_back(m_components[i]);
+    }
+
+    return p;
+}
+
+path path::tail() const
+{
+    path p;
+
+    for(uint32_t i = 1; i < depth(); ++i)
+    {
+        p.m_components.push_back(m_components[i]);
+    }
+
+    return p;
+}
 
 std::ostream&
 operator << (std::ostream& lhs, const path& p)
@@ -1250,7 +1289,7 @@ struct treadstone_transformer
     ~treadstone_transformer() throw ();
     int output(unsigned char** binary, size_t* binary_sz);
     int unset_value(const char* path);
-    int set_value(const char* path,
+    int set_value(const treadstone::path& path,
                   const unsigned char* value, size_t value_sz);
     int extract_value(const char* path,
                       unsigned char** value, size_t* value_sz);
@@ -1393,10 +1432,9 @@ treadstone_transformer :: unset_value(const char* p)
 }
 
 int
-treadstone_transformer :: set_value(const char* p, const unsigned char* value, size_t value_sz)
+treadstone_transformer :: set_value(const treadstone::path& path, const unsigned char* value, size_t value_sz)
 {
     using namespace treadstone;
-    path path(p);
 
     if (!path.is_valid())
     {
@@ -1451,7 +1489,19 @@ treadstone_transformer :: set_value(const char* p, const unsigned char* value, s
     {
         return replace(stubs, stubs.back().set_start, stubs.back().set_limit, value, value_sz);
     }
-    // don't want to handle this
+    // We first have to create the parent(s) of the field
+    else if (stubs.size() < path.depth())
+    {
+        if(set_value(path.front(), empty_object, sizeof(empty_object)) == -1)
+        {
+            return -1;
+        }
+        else
+        {
+            return set_value(path, value, value_sz);
+        }
+    }
+    // Something went wrong...
     else
     {
         return -1;
