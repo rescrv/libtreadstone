@@ -1057,6 +1057,15 @@ treadstone_json_to_binary(const char* json,
                           unsigned char** binary, size_t* binary_sz)
 {
     size_t json_sz = strlen(json);
+
+    // Invalid JSON
+    if(strcmp(json, "") == 0)
+    {
+        *binary = NULL;
+        *binary_sz = 0;
+        return -1;
+    }
+
     *binary = reinterpret_cast<unsigned char*>(malloc(sizeof(unsigned char) * json_sz));
     *binary_sz = 0;
 
