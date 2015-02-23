@@ -1056,15 +1056,15 @@ TREADSTONE_API int
 treadstone_json_to_binary(const char* json,
                           unsigned char** binary, size_t* binary_sz)
 {
-    size_t json_sz = strlen(json);
-
     // Invalid JSON
-    if(strcmp(json, "") == 0)
+    if(json == NULL || strcmp(json, "") == 0)
     {
         *binary = NULL;
         *binary_sz = 0;
         return -1;
     }
+
+    size_t json_sz = strlen(json);
 
     *binary = reinterpret_cast<unsigned char*>(malloc(sizeof(unsigned char) * json_sz));
     *binary_sz = 0;
@@ -1102,7 +1102,7 @@ TREADSTONE_API int
 treadstone_binary_to_json(const unsigned char* binary, size_t binary_sz,
                           char** json)
 {
-    if(binary_sz == 0)
+    if(binary == NULL || binary_sz == 0)
     {
         // Allow empty binary data as a valid empty json
         *json = reinterpret_cast<char*>(malloc(strlen("{}")+1));
