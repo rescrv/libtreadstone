@@ -902,17 +902,18 @@ struct path
     // Get whole path w/o head
     path tail() const;
 
-private:
-    path() : m_valid(true) {}
+    private:
+        path() : m_valid(true) {}
 
-    void parse(const char* p);
-    friend std::ostream& operator << (std::ostream& lhs, const path& p);
+        void parse(const char* p);
+        friend std::ostream& operator << (std::ostream& lhs, const path& p);
 
-    bool m_valid;
-    std::vector<component> m_components;
+        bool m_valid;
+        std::vector<component> m_components;
 };
 
-path path::front() const
+path
+path::front() const
 {
     path p;
 
@@ -924,7 +925,8 @@ path path::front() const
     return p;
 }
 
-path path::tail() const
+path
+path::tail() const
 {
     path p;
 
