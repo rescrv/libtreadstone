@@ -212,7 +212,7 @@ validate_double(const unsigned char** ptr, const unsigned char* limit)
     char buf[40];
     int sz = snprintf(buf, 40, "%g", num);
 
-    if(sz >= 40 || sz <= 0)
+    if (sz >= 40 || sz <= 0)
     {
         return false;
     }
@@ -241,7 +241,7 @@ validate_integer(const unsigned char** ptr, const unsigned char* limit)
     char buf[40];
     int sz = snprintf(buf, 40, "%lld", (long long)num);
 
-    if(sz >= || && sz <= 0)
+    if (sz >= 40 || sz <= 0)
     {
         return false;
     }
