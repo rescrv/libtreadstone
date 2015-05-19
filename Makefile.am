@@ -64,8 +64,20 @@ treadstone_json_validate_LDADD = libtreadstone.la $(E_LIBS)
 check_PROGRAMS =
 check_PROGRAMS += test/transforms
 check_PROGRAMS += test/validate-path
+check_PROGRAMS += test/json-to-binary
+check_PROGRAMS += test/binary-to-json
+check_PROGRAMS += test/validate-binary
 
 th_sources = test/th_main.cc test/th.cc test/th.h
+
+test_json_to_binary_SOURCES = test/json-to-binary.cc $(th_sources)
+test_json_to_binary_LDADD = libtreadstone.la
+
+test_binary_to_json_SOURCES = test/binary-to-json.cc $(th_sources)
+test_binary_to_json_LDADD = libtreadstone.la
+
+test_validate_binary_SOURCES = test/validate-binary.cc $(th_sources)
+test_validate_binary_LDADD = libtreadstone.la
 
 test_transforms_SOURCES = test/transforms.cc $(th_sources)
 test_transforms_LDADD = libtreadstone.la
@@ -76,3 +88,6 @@ test_validate_path_LDADD = libtreadstone.la
 TESTS =
 TESTS += test/transforms
 TESTS += test/validate-path
+TESTS += test/binary-to-json
+TESTS += test/json-to-binary
+TESTS += test/validate-binary

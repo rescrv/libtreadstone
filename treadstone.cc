@@ -902,17 +902,18 @@ struct path
     // Get whole path w/o head
     path tail() const;
 
-private:
-    path() : m_valid(true) {}
+    private:
+        path() : m_valid(true) {}
 
-    void parse(const char* p);
-    friend std::ostream& operator << (std::ostream& lhs, const path& p);
+        void parse(const char* p);
+        friend std::ostream& operator << (std::ostream& lhs, const path& p);
 
-    bool m_valid;
-    std::vector<component> m_components;
+        bool m_valid;
+        std::vector<component> m_components;
 };
 
-path path::front() const
+path
+path::front() const
 {
     path p;
 
@@ -924,7 +925,8 @@ path path::front() const
     return p;
 }
 
-path path::tail() const
+path
+path::tail() const
 {
     path p;
 
@@ -1056,7 +1058,16 @@ TREADSTONE_API int
 treadstone_json_to_binary(const char* json,
                           unsigned char** binary, size_t* binary_sz)
 {
+    // Invalid JSON
+    if(json == NULL || strcmp(json, "") == 0)
+    {
+        *binary = NULL;
+        *binary_sz = 0;
+        return -1;
+    }
+
     size_t json_sz = strlen(json);
+
     *binary = reinterpret_cast<unsigned char*>(malloc(sizeof(unsigned char) * json_sz));
     *binary_sz = 0;
 
@@ -1093,6 +1104,14 @@ TREADSTONE_API int
 treadstone_binary_to_json(const unsigned char* binary, size_t binary_sz,
                           char** json)
 {
+    if(binary == NULL || binary_sz == 0)
+    {
+        // Allow empty binary data as a valid empty json
+        *json = reinterpret_cast<char*>(malloc(strlen("{}")+1));
+        strcpy(*json, "{}");
+        return 0;
+    }
+
     size_t json_sz = 0;
     size_t json_cap = binary_sz + (binary_sz >> 2);
     *json = reinterpret_cast<char*>(malloc(sizeof(char) * json_cap));
