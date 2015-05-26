@@ -51,6 +51,7 @@ libtreadstone_la_SOURCES =
 libtreadstone_la_SOURCES += treadstone.cc
 libtreadstone_la_SOURCES += treadstone-validate.cc
 libtreadstone_la_LIBADD = $(E_LIBS)
+libtreadstone_la_LDFLAGS = -version-info 1:0:0
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA =
