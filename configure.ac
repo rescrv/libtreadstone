@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.62])
-AC_INIT([libtreadstone], [0.1.dev], [robert@rescrv.net])
+AC_INIT([libtreadstone], [0.2.0], [robert@rescrv.net])
 m4_define([serial_tests], [
     m4_esyscmd([case `automake --version | head -n 1` in
                 *1.11*);;
