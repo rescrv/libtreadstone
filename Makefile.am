@@ -60,7 +60,7 @@ pkgconfig_DATA += libtreadstone.pc
 noinst_PROGRAMS = treadstone-json-validate
 
 treadstone_json_validate_SOURCES = treadstone-json-validate.cc
-treadstone_json_validate_LDADD = libtreadstone.la $(E_LIBS)
+treadstone_json_validate_LDADD = libtreadstone.la
 
 check_PROGRAMS =
 check_PROGRAMS += test/transforms
