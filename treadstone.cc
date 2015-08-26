@@ -903,7 +903,7 @@ struct path
     path tail() const;
 
     private:
-        path() : m_valid(true) {}
+        path() : m_valid(true), m_components() {}
 
         void parse(const char* p);
         friend std::ostream& operator << (std::ostream& lhs, const path& p);
