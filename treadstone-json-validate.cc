@@ -1,4 +1,4 @@
-// Copyright (c) 2014, Robert Escriva
+// Copyright (c) 2014-2015, Robert Escriva
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -28,6 +28,7 @@
 #define _WITH_GETLINE
 
 // C
+#define _WITH_GETLINE
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
