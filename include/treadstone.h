@@ -40,6 +40,8 @@ extern "C"
 
 int treadstone_json_to_binary(const char* json,
                               unsigned char** binary, size_t* binary_sz);
+int treadstone_json_sz_to_binary(const char* json, size_t json_sz,
+                                 unsigned char** binary, size_t* binary_sz);
 int treadstone_binary_to_json(const unsigned char* binary, size_t binary_sz,
                               char** json);
 int treadstone_binary_validate(const unsigned char* binary, size_t binary_sz);
