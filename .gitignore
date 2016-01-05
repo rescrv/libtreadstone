@@ -30,7 +30,10 @@
 /parser_y.c
 /parser_y.h
 /stamp-h1
+/test/binary-to-json
+/test/json-to-binary
 /test/transforms
+/test/validate-binary
 /test/validate-path
 /treadstone-json-validate
 /ylwrap
